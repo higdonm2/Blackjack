@@ -1,0 +1,30 @@
+body {
+    display: grid;
+    grid-template-rows: 50vh 50vh;
+    grid-template-columns: 50vw 50vw;
+    grid-template-areas: 'player computer'
+                         'buttons buttons';
+    
+}
+div {
+    border: 1px black solid;
+    text-align: center;
+    padding: 5em;    
+}
+button {
+    height: 50px;
+    width: 100px;
+    margin: 50px;
+}
+#human {
+    grid-area: player; 
+} 
+#computer {
+    grid-area: computer;
+}
+#buttons {
+    grid-area: buttons;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
