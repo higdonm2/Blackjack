@@ -6,8 +6,7 @@ body {
                          'buttons buttons';
     
 }
-div {
-    border: 1px black solid;
+div { 
     text-align: center;
     padding: 5em;    
 }

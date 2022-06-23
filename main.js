@@ -3,9 +3,6 @@ class player {
         this.hand = [];
         this.name = name;
     };
-    gethand(){
-        return this.hand.join(' ');
-    };
     drawCard() {
         let card = Math.floor(Math.random() * 13);
         if (card > 10){
@@ -30,16 +27,6 @@ class player {
             };
         }
     }; 
-    getPlayerTurn(){
-        let turn = ''
-        rl.question('Hit or Stay?', returnTurn = (answer) => {
-        turn = answer;
-        
-        })
-        rl.close();
-
-        return turn;
-    };
     drawStartCards(){
         this.drawCard();
         this.drawCard();
@@ -50,39 +37,59 @@ class player {
     };
     prepCards() {
         return this.hand.join(', ')
-    }
+    };
+    displayCards() {
+        let id = this.name + 'Cards';
+        let total = this.calculateCards();
+        //Remove old div
+        let oldCards = document.getElementById(id)
+        if (oldCards){
+            oldCards.parentNode.removeChild(oldCards)
+        }
+    
+        //Create new div and append to playerobj.name
+        let newDiv = document.createElement('div');
+        newDiv.id = id;
+        document.getElementById(this.name).appendChild(newDiv);
+    
+        //Create the text for the DIV and append 
+        let newCards = document.createElement('p');
+        let newTotal = document.createElement('p');
+        newCards.textContent = `Cards: ${this.prepCards()}`;
+        newTotal.textContent = `Total: ${total.handTotal}`;
+        document.getElementById(id).appendChild(newCards);
+        document.getElementById(id).appendChild(newTotal);
+    };
+    stay(){
+        document.getElementById('hit').removeEventListener('click', human.hit);
+    };
+    hit(){
+        this.drawCard();
+        let hand = this.calculateCards();
+        if (hand){
+            this.displayCards();
+            this.stay();
+        } else {
+            this.displayCards();
+        }
+        
+    };
+    
 }
+
 
 let human = new player('human');
 let computer = new player('computer');
 
-
-//All game logic below
-//--------------------------------------------------------
-
 function playGame(){
     human.drawStartCards();
     computer.drawStartCards();
-    displayCards(human);
-    displayCards(computer);
+    human.displayCards();
+    computer.displayCards();
+    
 }
+
+document.getElementById('hit').addEventListener('click', human.hit);
 
 playGame();
-
-function displayCards(playerObj) {
-    let newCards = document.createElement('p');
-    let newTotal = document.createElement('p');
-    let total = playerObj.calculateCards();
-    newCards.textContent = `Cards: ${playerObj.prepCards()}`;
-    newTotal.textContent = `Total: ${total.handTotal}`;
-    document.getElementById(playerObj.name).appendChild(newCards);
-    document.getElementById(playerObj.name).appendChild(newTotal);
-}
-
-
-
-
-
-
-
 
